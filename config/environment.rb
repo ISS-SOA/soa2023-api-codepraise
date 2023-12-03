@@ -20,7 +20,9 @@ module CodePraise
     Figaro.load
     def self.config = Figaro.env
 
-    use Rack::Session::Cookie, secret: config.SESSION_SECRET
+    configure :development, :production do
+      plugin :common_logger, $stderr
+    end
 
     configure :app_test do
       require_relative '../spec/helpers/vcr_helper'
