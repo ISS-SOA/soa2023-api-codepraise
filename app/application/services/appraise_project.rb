@@ -35,10 +35,10 @@ module CodePraise
 
       def clone_remote(input)
         gitrepo = GitRepo.new(input[:project])
-        gitrepo.clone! unless gitrepo.exists_locally?
+        gitrepo.clone unless gitrepo.exists_locally?
 
         Success(input.merge(gitrepo:))
-      rescue StandardError
+      rescue StandardError => error
         App.logger.error error.backtrace.join("\n")
         Failure(Response::ApiResult.new(status: :internal_error, message: CLONE_ERR))
       end
